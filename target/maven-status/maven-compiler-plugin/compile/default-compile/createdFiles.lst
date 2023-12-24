@@ -1,8 +1,9 @@
 DataAcessObject/Database.class
+DataAcessObject/BookSearch.class
 DataAcessObject/BookRegister.class
-DataAcessObject/Search.class
 DataAcessObject/Edit.class
 DataAcessObject/Remove.class
 DataAcessObject/Create.class
+DataAcessObject/UserSearch.class
 DataAcessObject/UserRegister.class
 com/systemgen/librarysystem/librarysystem2/LibrarySystem2.class
