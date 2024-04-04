@@ -1,0 +1,111 @@
+Arquivo para planejamento de projeto
+
+CLASSE LOGIN:
+
+    FUNCIONAMENTO:
+
+        -Temos duas variaveis private do tipo string que recebem o email e a senha de usuario;
+        -Temos alguns predicates de validacao (que eu acredito ser desnecessario para essa classe);
+        -TODO: Temos um metodo que retorna um booleano chamado newLogin(). O retorno deve ser true (logado) ou false (nao logado);
+        -Temos uma instancia de scanner dentro do metodo, e para as variaveis strings criadas antes, atribuimos scanner.next();
+        -Temos uma validacao que utiliza os predicados teste para validar as entradas;
+        -Caso tudo de certo, entramos num loop forEach que recebe cada objeto e realiza a comparacao email/password;
+
+CLASSE REGISTRO:
+
+    -Temos uma variavel que faz referencia ao scanner da classe principal;
+    -Temos variaveis de registro de dados de usuario;
+    -Temos um metodo final (para casos de heranca) que gera um ID de sistema para um usuario e retorna o ID com valor absoluto;
+    -Temos um metodo publico e que nao retorna nada chamado newRegister(), que registra os dados de usuario;
+    -Ao fim do metodo, e perguntado ao usuario se tudo esta correto. Se sim, os dados sao registrados em uma instancia da
+     classe UserRegisterComponent em uma lista. Caso nao, O registro e reiniciado.
+
+CLASSE DATA_STORAGE:
+    
+    -Temos duas variaveis finais do tipo int que armazena um numero constante de usuarios e livros que podem ser armazenados;
+    -Temos 2 listas cujo tamanho sao essas variaveis e cujos tipos sao UserRegisterComponent e BookRegisterComponent;
+    
+
+INTERFACE GENERATE_SYSTEM_IDENTIFIER
+
+    -Temos uma interface funcional que gera um id de usuario ou livro. A implementacao se da por meio de lambda;
+    -O tipo da interface e um tipo que estende de qualquer subtipo de number;
+    -Esses limites sao para receber uma seed correta para uma instancia de Random;
+    
+
+CLASSE USER_REGISTER_COMPONENT
+
+    -Esta classe e um record. Serve para encapsular as informacoes do usuario registrado e armazena-las em uma lista de dados;
+    -Contem apenas um campo estatico do tipo long: userSeed, que comeca em 100L e vai ate 1100L;
+    -Para cada usuario registrado, esse campo incrementa seu valor em 10, totalizando a capacidade de armazenar 100 usuarios;
+
+CLASSE BOOK_REGISTER_COMPONENT
+
+    -Esta classe e um record. Serve para encapsular as informacoes de um livro registrado e armazena-las em uma lista de dados;
+    -Contem apenas um campo estatico do tipo long: bookSeed, que comeca em 2000L e vai ate 7000L;
+    -Para cada livro registrado, esse campo incrementa seu valor em 10, totalizando a capacidade de armazenar 500 livros;
+
+CLASSE LIBRARY_SYSTEM_2
+
+    -Esta classe contem a interface de interacao com o usuario;
+    -Contem um scanner estatico e um bloco de tratamento de excessoes dentro do metodo main();
+    -Contem um menu de opcoes e interacoes dessas opcoes por meio de uma instrucao switch;
+
+
+MODIFICACOES:
+
+    -> Inserir + 3 de espacos na lista de usuarios registrados (100 + 3) para armazenar ate 3 admins;  --feito
+        - Fazendo isso, deve-se alterar tambem o ID gerado para admins, que comeca no 10, 20 e 30.    --feito    
+        - Tambem devemos limitar a quantidade de usuario registrado no sistema para 100, para evitar bugs onde os espacos de admins
+           sao consumidos;  --pendente
+        - utilizar instanceof para verificar de qual instancia o cadastro encontrado no registro pertence; --feito
+
+    -> Ao logar no sistema, direcionar o login do usuario para uma interface do sistema de usuario. Caso seja um admin, 
+       direcionar para a pagina de administracao, onde sera repleta de ferramentas de gerenciamento;
+    -> Cada interface de usuario devera ser uma instancia no sistema, e nao um ambiente unico, podendo suportar multiplas 
+       instancias, ou seja, multiplos usuarios. A mesma coisa deve ser feito com as instancias de admin;
+
+    -> Criar alguma forma de login de mantenedor do sistema, onde o mantenedor cadastra e descadastra os admins;
+        - Isso leva a criacao de uma interface de mantenedor;
+
+
+    COMPONENTES DA INTERFACE DE MANTENEDOR:
+        -> Um metodo de registro especial, onde um usuario ou admin pode ser registrado;
+        -> Um metodo onde pode-se acessar a sessao de depuracao do sistema, como loggers e outras funcionalidades;
+        -> Um metodo onde e possivel configurar algumas coisas no sistema;
+        -> Tentar logar com o maintainer pelo Console;
+
+    COMPONENTES DA INTERFACE DE USUARIO:
+    
+        -> Metodos de listagem e pesquisa de livros e usuarios;
+            - Metodo de adesao de livros, onde um usuario obtem um livro, e esse livro torna-se inativo no sistema,
+               passando o livro para uma lista de "alugados"
+            - Estendendo o metodo acima, filtrar livros por disponiveis e nao disponiveis
+            - Com livros nao disponiveis, identificar qual usuario o alugou ou null caso nao 
+               tenham unidades do livro no sistema;
+        -> Sessao de classificacao de livros, com estrelas e comentarios;
+        -> Pequena vitrine amostrando os livros mais recentes, podendo o usuario filtrar os livros pelos mais populares, 
+           com comentarios mais positivos, negativos, menos estrelas, etc...
+        -> Metodo de logout;
+
+
+    COMPONENTES DA INTERFACE DE ADMINISTRADOR:
+
+        -> Metodos de listagem e pesquisa de livros e usuarios;
+        -> Metodos de filtragem de livros e usuarios;
+        -> Metodo que adiciona ou remove um livro no sistema, contendo booleanos que dirao se aquele livro 
+           esta disponivel ou nao, quantas unidades dele estao disponiveis, etc.;
+        -> Metodo que cadastra e descadastra um usuario no sistema;
+        -> Metodo de logout;
+
+
+    MECANICAS DO SISTEMA PARA IMPLEMENTACAO:
+    
+        -> Implementar uma nova lista generica com chave(K), valor(V) que contem os livros alugados vinculados aos usuarios;
+        -> Associar o cadastro de um livro no sistema a um admin logado no momento;
+        -> Futuramente criar um logger para registro do comportamento do sistema;
+            -> Isso inclui direcionar um evento no sistema para uma lista, simulando um arquivo de logger;
+            -> Cada indice dessa lista vai conter uma mensagem de log;
+               - Separar os logs de registro geral (usuarios, admins, livros, etc);
+               - Exclusao, alteracao de informacoes de livros, etc;
+               - Requisicoes por admin ou usuario sobre listas (ex.: requisitar lista de livros, lista de usuarios...);
