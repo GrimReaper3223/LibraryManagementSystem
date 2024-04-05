@@ -11,7 +11,7 @@ import java.io.Console;
  *
  * @author deiv
  */
-public class Login implements Authenticate {
+public class Login implements Authenticate, DataValidationAndFormatting {
 
     //metodo de login
     public void secureLogin() {
@@ -25,6 +25,7 @@ public class Login implements Authenticate {
         }
         
         String email = console.readLine("%n%s", "E-mail: ");
+        validateEmail(email);
         char[] password = console.readPassword("%s", "Password:");
         
         if(email != null && password != null) {
