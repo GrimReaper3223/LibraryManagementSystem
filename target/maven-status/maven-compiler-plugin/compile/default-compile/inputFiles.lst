@@ -10,5 +10,6 @@
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/DataComponents/DataStorage.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/DataComponents/BookRegisterComponent.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/Env/MaintainerEnv.java
+/home/deiv/Documentos/LibraryManagementSystem/src/main/java/com/systemgen/librarysystem/librarysystem2/DataValidationAndFormatting.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/com/systemgen/librarysystem/librarysystem2/Register.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/DataComponents/AdminRegisterComponent.java

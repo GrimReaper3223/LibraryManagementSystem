@@ -7,7 +7,10 @@ com/systemgen/librarysystem/librarysystem2/Main.class
 DataComponents/Box.class
 DataComponents/BookRegisterComponent.class
 DataComponents/DataStorage.class
+com/systemgen/librarysystem/librarysystem2/Register$1.class
 Env/UserEnv.class
+com/systemgen/librarysystem/librarysystem2/Register$2.class
 com/systemgen/librarysystem/librarysystem2/Login.class
 DataComponents/GenerateSystemIdentifier.class
 DataComponents/UserRegisterComponent.class
+com/systemgen/librarysystem/librarysystem2/DataValidationAndFormatting.class

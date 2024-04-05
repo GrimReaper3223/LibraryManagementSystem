@@ -26,7 +26,8 @@ public interface Authenticate {
             UserRegisterComponent user = userIterator.next();
             
             //validacao
-            if(user.email().equals(email) && user.password().equals(stringPass)) {
+            if(user.email().equals(email) 
+                    && user.password().equals(stringPass)) {
                 return new Box<>(user);
             }
         }
@@ -37,12 +38,13 @@ public interface Authenticate {
             AdminRegisterComponent admin = adminIterator.next();
             
             //validacao
-            if(admin.email().equals(email) && admin.password().equals(stringPass)) {
+            if(admin.email().equals(email) 
+                    && admin.password().equals(stringPass)) {
                 return new Box<>(admin);
             }
         }
         
         //se nenhum usuario for encontrado, lancar uma excessao
-        throw new NoSuchElementException("Error: User not found");
+        throw new NoSuchElementException("\nError: User not found\n");
     };
 }

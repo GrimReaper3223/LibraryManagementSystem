@@ -20,7 +20,7 @@ public class Main {
             scanner = new Scanner(System.in);
             
             System.out.print("""
-                               Library System Manager - v2.0
+                               Library System Manager - v2.1
                                
                                Select an option:
                                
@@ -59,9 +59,8 @@ public class Main {
             System.err.println(e.getMessage());
             main();
             
-            
-        }catch(NoSuchElementException nsee) {
-            System.err.println(nsee.getMessage());
+        } catch(NoSuchElementException | IllegalArgumentException exception) {
+            System.err.println(exception.getMessage());
             main();
         }
     }
