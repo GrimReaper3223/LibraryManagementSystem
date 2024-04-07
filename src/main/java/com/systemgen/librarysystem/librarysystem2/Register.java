@@ -3,34 +3,36 @@ package com.systemgen.librarysystem.librarysystem2;
 
 import DataComponents.*;
 import java.io.Console;
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Random;
+import java.util.function.Supplier;
 
 /**
  * Classe responsavel por registrar um usuario/admin
- * 
- * TODO: refatorar essa classe para que ela registre via instancia de console
- * NOTE: ao fazer a refatoracao, apagar alguns caracteres da senha ao perguntar o 
- *       usuario se esta tudo certo
  * 
  * @author deiv
  */
 public class Register implements DataValidationAndFormatting {
     
-    Random random;
+    //esses valores serao inicializados na linha 46 ou 57
+    protected Random random;
+    protected Supplier<Long> randomSupplier;
     
     //variaveis de armazenamento final
-    private String fullName, address, email;
-    private Long phone;
+    String fullName, address, email;
+    Long phone;
     
     
     //variaveis de representacao para verificacao dos dados inseridos
-    private String name, surname, stringPhone, secureVisiblePass;
+    String name, surname, stringPhone;
+    
+    //essa variavel nao pode ser subclassificada
+    private String secureVisiblePass;
     
     
     //se for true, entao um admin sera cadastrado. Se nao, um user sera cadastrado
-    private final boolean isSystemRegister;
+    protected final boolean isSystemRegister;
     
     
     //construtor padrao
@@ -40,34 +42,45 @@ public class Register implements DataValidationAndFormatting {
     
     
     //gera um id para um usuario
-    private final GenerateSystemIdentifier<Long> generateID = new GenerateSystemIdentifier<>() {
+    protected final GenerateSystemIdentifier<Long> generateID = new GenerateSystemIdentifier<>() {
         @Override
         public Long id(Long seed) {
             random = new Random(seed);
+            randomSupplier = random::nextLong;
             UserRegisterComponent.userSeed += 10;
-            return Math.abs(random.nextLong());
+            return Math.abs(randomSupplier.get());
         }
     };
     
     //gera um id para um admin
-    private final GenerateSystemIdentifier<Long> generateAdminID = new GenerateSystemIdentifier<>() {
+    protected final GenerateSystemIdentifier<Long> generateAdminID = new GenerateSystemIdentifier<>() {
         @Override
         public Long id(Long seed) {
             random = new Random(seed);
+            randomSupplier = random::nextLong;
             AdminRegisterComponent.adminSeed += 10;
-            return Math.abs(random.nextLong());
+            return Math.abs(randomSupplier.get());
         }
     };
     
     
     //metodo de registro
-    public void newRegister() throws InputMismatchException, IOException {
+    //as declaracoes de lancamento de excessao referem-se ao objeto Scanner da instancia regScan de ScannerRegister
+    //caso o metodo de registro por scanner falhar, este metodo declara que lanca a excessao ao metodo main
+    public void newRegister() throws InputMismatchException, IllegalArgumentException {
         
         //cria uma instancia de console
         Console console = System.console();
+        
+        //se a instancia nao existir, redirecionar o registro para uma instancia 
+        //que use um objeto Scanner ao inves de um console
         if(console == null) {
             System.err.println("\n!!!Error: Console does not exist!!!\n");
-            System.exit(1);
+            System.out.println("Redirecting to \"ScannerRegister\" registry instance...\n");
+            
+            ScannerRegister regScan = new ScannerRegister(isSystemRegister);
+            regScan.newRegister();
+            return;
         }
         
         //verifica o nome
@@ -101,24 +114,25 @@ public class Register implements DataValidationAndFormatting {
         switch(choice.toLowerCase()) {
             case "y", "yes": 
                 if(!isSystemRegister) {
-                    DataStorage.user.add(new UserRegisterComponent(fullName, address, phone, email, String.valueOf(charPassword), generateID.id(UserRegisterComponent.userSeed)));
+                    DataStorage.user.add(new UserRegisterComponent(fullName, address, phone, email, String.valueOf(charPassword), generateID.id(UserRegisterComponent.userSeed), Roles.USER));
+                    Arrays.fill(charPassword, ' ');
                     System.out.println("\n***User " + fullName + " registered successfully!***\n");
                     break;
                     
                 } else {
-                    DataStorage.admin.add(new AdminRegisterComponent(fullName, address, phone, email, String.valueOf(charPassword), generateAdminID.id(AdminRegisterComponent.adminSeed)));
+                    DataStorage.admin.add(new AdminRegisterComponent(fullName, address, phone, email, String.valueOf(charPassword), generateAdminID.id(AdminRegisterComponent.adminSeed), Roles.ADMIN));
+                    Arrays.fill(charPassword, ' ');
                     System.out.println("\n***Admin " + fullName + " registered successfully!***\n");
                     break;
                 }
 
             case "n", "no": 
-                System.out.println("\nRestarting register process...");
+                System.out.println("\nRestarting register process...\n");
+                Arrays.fill(charPassword, ' ');
                 newRegister();
-                break;
 
             default: 
                 System.err.println("\nInvalid Option\n");
-                Main.main();
         }
     }
 }
