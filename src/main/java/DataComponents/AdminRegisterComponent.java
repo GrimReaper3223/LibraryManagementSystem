@@ -10,7 +10,7 @@ import com.systemgen.librarysystem.librarysystem2.Authenticate;
  * 
  * @author deiv
  */
-public record AdminRegisterComponent(String fullName, String address, long phone, String email, String password, Long uid) 
+public record AdminRegisterComponent(String fullName, String address, Long phone, String email, String password, Long uid, Roles role) 
         implements Authenticate {
     
     public static Long adminSeed = 10L;        //max = 30 - 3 admins
