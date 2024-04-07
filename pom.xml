@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.systemGen.librarySystem</groupId>
     <artifactId>LibrarySystem2</artifactId>
-    <version>2.1</version>
+    <version>2.2.0</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -11,6 +11,15 @@
         <maven.compiler.target>21</maven.compiler.target>
         <exec.mainClass>com.systemgen.librarysystem.librarysystem2.Main</exec.mainClass>
     </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     
     <build>
         <plugins>
