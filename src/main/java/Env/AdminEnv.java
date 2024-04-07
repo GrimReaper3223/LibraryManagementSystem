@@ -11,9 +11,8 @@ import java.util.Scanner;
 public class AdminEnv <AdminRegisterComponent> {
     
     //contem a conta de admin logada
-    private final AdminRegisterComponent ADMIN;
-    
-    Scanner adminScanner;
+    final AdminRegisterComponent ADMIN;
+    private static Scanner adminScanner;
     
     //construtor
     public AdminEnv(AdminRegisterComponent admin) {

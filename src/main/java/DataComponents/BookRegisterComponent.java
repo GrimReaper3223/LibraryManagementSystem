@@ -8,7 +8,7 @@ package DataComponents;
  * 
  * @author deiv
  */
-public record BookRegisterComponent(String title, String author, String genre, int publishYear, int length, long bid) {
+public record BookRegisterComponent(String title, String author, String genre, Integer publishYear, Integer length, Long bid) {
     
     static long bookSeed = 2000L;        //max = 7000L - 500 livros
 }

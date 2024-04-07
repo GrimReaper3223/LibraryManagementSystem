@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class UserEnv <UserRegisterComponent> {
     
     //contem a instancia do usuario atual logado
-    private final UserRegisterComponent USER;
+    final UserRegisterComponent USER;
     private static Scanner userScanner;
     
     //construtor

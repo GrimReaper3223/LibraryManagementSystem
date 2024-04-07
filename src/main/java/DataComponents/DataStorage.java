@@ -12,7 +12,7 @@ public class DataStorage {
 
     //limite maximo de objetos registrados
     static final int MAX_USERS_LIMIT = 100;     //100 usuarios;
-    static final int MAX_ADMINS_LIMIT = 3;     //100 usuarios;
+    static final int MAX_ADMINS_LIMIT = 3;      //3 admins;
     static final int MAX_BOOKS_LIMIT = 500;     //500 objetos de livros;
 
     //armazena objetos registrados

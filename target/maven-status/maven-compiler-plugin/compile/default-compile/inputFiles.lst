@@ -1,7 +1,9 @@
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/com/systemgen/librarysystem/librarysystem2/Authenticate.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/DataComponents/Box.java
+/home/deiv/Documentos/LibraryManagementSystem/src/main/java/DataComponents/Roles.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/Env/AdminEnv.java
-/home/deiv/Documentos/LibraryManagementSystem/src/main/java/TestClasses/LoginTest.java
+/home/deiv/Documentos/LibraryManagementSystem/src/main/java/com/systemgen/librarysystem/librarysystem2/ScannerLogin.java
+/home/deiv/Documentos/LibraryManagementSystem/src/main/java/com/systemgen/librarysystem/librarysystem2/ScannerRegister.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/DataComponents/GenerateSystemIdentifier.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/com/systemgen/librarysystem/librarysystem2/Main.java
 /home/deiv/Documentos/LibraryManagementSystem/src/main/java/DataComponents/UserRegisterComponent.java

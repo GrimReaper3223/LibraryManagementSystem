@@ -3,6 +3,7 @@ package com.systemgen.librarysystem.librarysystem2;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Objects;
+import java.util.function.DoubleToIntFunction;
 import java.util.function.Predicate;
 
 /**
@@ -15,6 +16,7 @@ public interface DataValidationAndFormatting {
     final int NUMBER_LENGTH = 11;
     final int MIN_PASSWORD_LENGTH = 6;
     final int MAX_PASSWORD_LENGTH = 32;
+    final DoubleToIntFunction toInt = d -> (int)d;
     
     //alguns provedores de email mais populares
     final String[] EMAIL_PROVIDERS = {
@@ -61,7 +63,7 @@ public interface DataValidationAndFormatting {
     }
     
     //valida e formata um numero de telefone    --- check
-    default String formatAndValidatePhoneNumber(Long phone) {
+    default String formatAndValidatePhoneNumber(long phone) {
         //transforma o valor de phone para String para verificacao
         String phoneString = String.valueOf(phone);
         
@@ -75,20 +77,17 @@ public interface DataValidationAndFormatting {
                 String phone2 = phoneString.substring(7, NUMBER_LENGTH);
                 
                 //realiza a formatacao do numero e retorna a representacao em string
-                return formatter.format("(%1$2s) %2$5s-%3$4s", ddd, phone1, phone2).toString();
+                return formatter.format("(%1$s) %2$s-%3$s", ddd, phone1, phone2).toString();
             }
         }
         throw new IllegalArgumentException("\nError: Number is not valid\n");
     }
     
     //recebe um email e valida  --- check
-    default String validateEmail(String email) {
+    default void validateEmail(String email) {
         //caracteres especiais de validacao de email
         String specialCharSep = "@";
         String dotSep = ".";
-        
-        //contem o provedor de email fornecido pelo usuario
-        String emailProvider;
         
         //realiza os devidos testes
         if(def_predicate.test(email) && email.endsWith(".com")) {
@@ -98,14 +97,15 @@ public interface DataValidationAndFormatting {
             int specialCharSepIndex = emailTrim.lastIndexOf(specialCharSep);
             int dotSepIndex = emailTrim.lastIndexOf(dotSep);
            
-            //obtem o provedor de email fornecido
-            emailProvider = emailTrim.substring(specialCharSepIndex + 1, dotSepIndex);
+            //obtem o provedor de email fornecido pelo usuario
+            String emailProvider = emailTrim.substring(specialCharSepIndex + 1, dotSepIndex);
             
             if (java.util.Arrays.binarySearch(EMAIL_PROVIDERS, emailProvider) < 0) {
                 throw new IllegalArgumentException("\nError: Invalid mail provider\n");
             }
             
-            return emailTrim;
+            //finaliza a execucao do metodo caso o email seja valido
+            return;
         }
         
         throw new IllegalArgumentException("\nError: Invalid mail format\n");
@@ -113,34 +113,32 @@ public interface DataValidationAndFormatting {
     
     //formata a senha substituindo alguns caracteres por *
     default String formatpassword(char[] password) {
-        
         if(pass_predicate.test(String.valueOf(password))) {
             
             //guarda o valor do comprimento total / 2 do parametro
-            double passLength;
+            int passLength;
             
             //verifica se a senha tem um length() par ou impar
             //se for par, atribui a variavel passLength stringPass.length() / 2
-            //se for impar, atribui a variavel passlength o maior inteiro menor que o argumento
+            //se for impar, chama a funcao toInt, que converte o double para int
+            //e passa como argumento o metodo Math.floor(password.length / 2)
+            //O metodo floor retorna o maior inteiro menor ou igual ao argumento
             if(password.length % 2 != 0) {
-                passLength = Math.floor(password.length / 2);
+                passLength = toInt.applyAsInt(Math.floor(password.length / 2));
             } else {
                 passLength = password.length / 2;
             }
-            
-            //realiza uma conversao segura entre double para Integer
-            int doubleToInt = (int)passLength;
             
             //realiza uma copia segura da array de chars do parametro, sem alterar a array-argumento password
             char[] newCharArrayPassword = Arrays.copyOfRange(password, 0, password.length);
             
             //repoe os caracteres da metade da array ate o fim por *
-            Arrays.fill(newCharArrayPassword, doubleToInt, newCharArrayPassword.length, '*');
+            Arrays.fill(newCharArrayPassword, passLength, newCharArrayPassword.length, '*');
             
             //retorna uma nova string da array modificada
             return new String(newCharArrayPassword);
         }
         
-        throw new IllegalArgumentException("\nError: Password cannot be empty/null\n");
+        throw new IllegalArgumentException("\nError: Password cannot be empty/null or outside the size standard\n");
     }
 }
